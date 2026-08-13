@@ -22,4 +22,10 @@ export class GamesController {
         const winner = this.gamesService.getTrickWinner(body.cards, body.trumpSuit);
         return { winner };
     }
+
+    @Get('deal')
+    dealHand(@Query('players') players: string) {
+        const playerCount = players ? Number(players) : 2;
+        return this.gamesService.dealHand(playerCount);
+    }
 }

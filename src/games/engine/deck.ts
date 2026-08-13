@@ -36,3 +36,12 @@ export function rankStrength(rank: Rank): number {
     // Higher number = stronger card
     return RANK_STRENGTH_ORDER.length - RANK_STRENGTH_ORDER.indexOf(rank);
 }
+
+export function shuffle<T>(items: T[]): T[] {
+    const arr = items.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
