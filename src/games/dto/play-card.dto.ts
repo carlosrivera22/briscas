@@ -1,6 +1,6 @@
+import { Rank, Suit } from 'brisca-engine';
 import { Type } from 'class-transformer';
 import { IsIn, IsInt, Min } from 'class-validator';
-import { Rank, Suit } from '../engine/types';
 
 const VALID_SUITS: Suit[] = ['oros', 'copas', 'espadas', 'bastos'];
 const VALID_RANKS: Rank[] = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12];

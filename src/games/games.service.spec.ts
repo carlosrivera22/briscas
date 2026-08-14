@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GamesService } from './games.service';
-import { Card } from './engine/types';
+import { Card } from 'brisca-engine';
 
 describe('GamesService', () => {
   let service: GamesService;

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { Card, Suit } from './engine/types';
 import { CardPointsQueryDto } from './dto/card-points-query.dto';
 import { CreateGameDto } from './dto/create-game.dto';
 import { PlayCardDto } from './dto/play-card.dto';
+import { Card, Suit } from 'brisca-engine';
 
 @Controller('games')
 export class GamesController {

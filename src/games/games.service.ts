@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { buildDeck, cardPoints, rankStrength, shuffle } from './engine/deck';
-import { Card, GameState, Suit } from './engine/types';
+import { buildDeck, cardPoints, rankStrength, shuffle } from 'brisca-engine';
+import { Card, GameState, Suit } from 'brisca-engine';
 
 const HAND_SIZE = 3;
 
