@@ -62,4 +62,53 @@ export class GamesService {
             remainingDeck: deck,
         };
     }
+
+    simulateGame(playerCount: number) {
+        const { hands, trumpCard, remainingDeck } = this.dealHand(playerCount);
+        const trumpSuit = trumpCard.suit;
+        const drawQueue = [...remainingDeck, trumpCard];
+
+        const scores = Array.from({ length: playerCount }, () => 0);
+        const history: { plays: { player: number; card: Card }[]; winner: number; points: number }[] = [];
+
+        let leader = 0;
+
+        while (hands.some((hand) => hand.length > 0)) {
+            const plays: { player: number; card: Card }[] = [];
+
+            for (let i = 0; i < playerCount; i++) {
+                const player = (leader + i) % playerCount;
+                const hand = hands[player];
+                if (hand.length === 0) continue;
+                const card = hand.shift() as Card;
+                plays.push({ player, card });
+            }
+
+            const winningCard = this.getTrickWinner(
+                plays.map((p) => p.card),
+                trumpSuit,
+            );
+            const winningPlay = plays.find((p) => p.card === winningCard) as { player: number; card: Card };
+            const points = plays.reduce((sum, p) => sum + cardPoints(p.card), 0);
+
+            scores[winningPlay.player] += points;
+            history.push({ plays, winner: winningPlay.player, points });
+
+            const drawOrder = Array.from({ length: playerCount }, (_, i) => (winningPlay.player + i) % playerCount);
+            for (const player of drawOrder) {
+                const drawn = drawQueue.shift();
+                if (!drawn) break;
+                hands[player].push(drawn);
+            }
+
+            leader = winningPlay.player;
+        }
+
+        return {
+            trumpCard,
+            history,
+            scores,
+            winner: scores.indexOf(Math.max(...scores)),
+        };
+    }
 }
