@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { Card, Suit } from './engine/types';
 import { CardPointsQueryDto } from './dto/card-points-query.dto';
@@ -54,5 +54,11 @@ export class GamesController {
     playCard(@Param('id') id: string, @Body() body: PlayCardDto) {
         const card: Card = { suit: body.suit, rank: body.rank };
         return this.gamesService.playCard(id, body.player, card);
+    }
+
+    @Delete(':id')
+    deleteGame(@Param('id') id: string) {
+        this.gamesService.deleteGame(id);
+        return { deleted: true };
     }
 }
