@@ -29,4 +29,10 @@ export class GamesController {
         const playerCount = players ? Number(players) : 2;
         return this.gamesService.dealHand(playerCount);
     }
+
+    @Get('simulate')
+    simulateGame(@Query('players') players: string) {
+        const playerCount = players ? Number(players) : 2;
+        return this.gamesService.simulateGame(playerCount);
+    }
 }
