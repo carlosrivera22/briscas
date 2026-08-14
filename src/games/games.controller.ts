@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { Card, Rank, Suit } from './engine/types';
+import { Card, Suit } from './engine/types';
+import { CardPointsQueryDto } from './dto/card-points-query.dto';
 
 @Controller('games')
 export class GamesController {
@@ -12,8 +13,8 @@ export class GamesController {
     }
 
     @Get('card-points')
-    getCardPoints(@Query('suit') suit: Suit, @Query('rank') rank: string) {
-        const card: Card = { suit, rank: Number(rank) as Rank };
+    getCardPoints(@Query() query: CardPointsQueryDto) {
+        const card: Card = { suit: query.suit, rank: query.rank };
         return { card, points: this.gamesService.getCardPoints(card) };
     }
 
