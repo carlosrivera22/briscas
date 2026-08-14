@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { GamesService } from './games.service';
 import { Card, Suit } from './engine/types';
 import { CardPointsQueryDto } from './dto/card-points-query.dto';
+import { CreateGameDto } from './dto/create-game.dto';
+import { PlayCardDto } from './dto/play-card.dto';
 
 @Controller('games')
 export class GamesController {
@@ -34,5 +36,23 @@ export class GamesController {
     simulateGame(@Query('players') players: string) {
         const playerCount = players ? Number(players) : 2;
         return this.gamesService.simulateGame(playerCount);
+    }
+
+    // ---------- Stateful game endpoints ----------
+
+    @Post()
+    createGame(@Body() body: CreateGameDto) {
+        return this.gamesService.createGame(body.playerCount);
+    }
+
+    @Get(':id')
+    getGame(@Param('id') id: string) {
+        return this.gamesService.getGame(id);
+    }
+
+    @Post(':id/play')
+    playCard(@Param('id') id: string, @Body() body: PlayCardDto) {
+        const card: Card = { suit: body.suit, rank: body.rank };
+        return this.gamesService.playCard(id, body.player, card);
     }
 }
